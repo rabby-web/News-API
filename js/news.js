@@ -10,7 +10,7 @@ const handleCategory = async () => {
     const ulContainer = document.getElementById("ul-list");
     const li = document.createElement("li");
     li.innerHTML = `
-        <li><a>${category.category_name}</a></li>
+        <li onclick="handleLoadNews('${category.category_id}')"><a>${category.category_name}</a></li>
         `;
     ulContainer.appendChild(li);
   });
@@ -24,24 +24,24 @@ const handleLoadNews = async (categoryId) => {
   const newsIdCategory = data.data;
   newsIdCategory?.forEach((news) => {
     const cardContainer = document.getElementById("card-container");
+    // cardContainer.innerHTML = "";
     const div = document.createElement("div");
-    div.classList.add = `grid grid-cols-2 gap-4 m-5 md:m-10`;
+    // div.classList = `grid grid-cols-3 gap-4 m-5 md:m-10`;
     div.innerHTML = `
-    <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card w-full bg-base-100 shadow-xl">
           <figure>
             <img
-              src="${news.image_url}"
+              src="${news?.image_url}"
               alt="Shoes"
             />
           </figure>
           <div class="card-body">
             <h2 class="card-title">
-              Biden Pledges Nearly $3 Billion To Ukraine
+              ${news?.title.slice(0, 40)}
               <div class="badge badge-secondary p-5">Excellent</div>
             </h2>
             <p>
-              Wednesday, August 24, 2022 | Tag Cloud Tags: Biden, EU, Euro,
-              Europe, Joe Biden,
+              ${news?.details.slice(0, 60)}
             </p>
             <div class="card-footer flex justify-between mt-8">
               <div class="flex">
@@ -70,9 +70,10 @@ const handleLoadNews = async (categoryId) => {
           </div>
         </div>
     `;
+
     cardContainer.appendChild(div);
   });
   console.log(data);
 };
-handleLoadNews("01");
+handleLoadNews();
 handleCategory();
