@@ -22,7 +22,9 @@ const handleLoadNews = async (categoryId) => {
   );
   const data = await response.json();
   const newsIdCategory = data.data;
+  //   console.log(newsIdCategory.author.name);
   newsIdCategory?.forEach((news) => {
+    console.log(news.author.name);
     const cardContainer = document.getElementById("card-container");
     // cardContainer.innerHTML = "";
     const div = document.createElement("div");
@@ -38,25 +40,30 @@ const handleLoadNews = async (categoryId) => {
           <div class="card-body">
             <h2 class="card-title">
               ${news?.title.slice(0, 40)}
-              <div class="badge badge-secondary p-5">Excellent</div>
+              <div class="badge badge-secondary p-5">${
+                news?.rating?.badge
+              }</div>
             </h2>
             <p>
               ${news?.details.slice(0, 60)}
             </p>
+            <h3> totoal viws: ${
+              news.total_view ? news.total_view : "no vviews"
+            }</h3>
             <div class="card-footer flex justify-between mt-8">
               <div class="flex">
                 <div>
                   <div class="avatar online">
                     <div class="w-14 rounded-full">
                       <img
-                        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                        src="${news?.author?.img}"
                       />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h6>Jimmy Dane</h6>
-                  <small>2022-08-24 17:27:34</small>
+                  <h6>${news?.author?.name}</h6>
+                  <small>${news?.author?.published_date}</small>
                 </div>
               </div>
               <div class="card-detaild-btn">
