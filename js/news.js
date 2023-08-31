@@ -16,7 +16,7 @@ const handleCategory = async () => {
   });
 };
 const handleLoadNews = async (categoryId) => {
-  console.log(categoryId);
+  // console.log(categoryId);
   const response = await fetch(
     `https://openapi.programming-hero.com/api/news/category/${categoryId}`
   );
@@ -24,7 +24,7 @@ const handleLoadNews = async (categoryId) => {
   const newsIdCategory = data.data;
   //   console.log(newsIdCategory.author.name);
   newsIdCategory?.forEach((news) => {
-    console.log(news.author.name);
+    // console.log(news.author.name);
     const cardContainer = document.getElementById("card-container");
     // cardContainer.innerHTML = "";
     const div = document.createElement("div");
@@ -67,7 +67,7 @@ const handleLoadNews = async (categoryId) => {
                 </div>
               </div>
               <div class="card-detaild-btn">
-                <button
+                <button onclick=handleModal('${news._id}')
                   class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900"
                 >
                   Details
@@ -80,7 +80,38 @@ const handleLoadNews = async (categoryId) => {
 
     cardContainer.appendChild(div);
   });
-  console.log(data);
+  // console.log(data);
 };
+
+const handleModal = async (newsID) => {
+  // console.log(newsID);
+  const response = await fetch(
+    `https://openapi.programming-hero.com/api/news/${newsID}`
+  );
+  const data = await response.json();
+  const dataDetails = data.data[0];
+  console.log(dataDetails.title);
+  const modalContainer = document.getElementById("modal-container");
+  const div = document.createElement("div");
+  div.innerHTML = `
+  <dialog id="my_modal_1" class="modal">
+    <form method="dialog" class="modal-box">
+    <img src="" alt="pic">
+      <h3 class="font-bold text-lg">${dataDetails.title}</h3>
+      <p class="py-4">Press ESC key or click the button below to close</p>
+      <div class="modal-action">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </div>
+    </form>
+  </dialog>`;
+
+  modalContainer.appendChild(div);
+
+  const modal = document.getElementById("my_modal_1");
+
+  modal.showModal();
+};
+handleModal();
 handleLoadNews();
 handleCategory();
